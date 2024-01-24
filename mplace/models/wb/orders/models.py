@@ -7,9 +7,16 @@ from mplace.models.base import Base
 
 
 class WBOrder(Base):
+    """
+    Заказы
+
+    Платформа: Wildberries
+    Ссылка на документацию апи: https://openapi.wb.ru/statistics/api/ru/#tag/Statistika/paths/~1api~1v1~1supplier~1orders/get
+    """
+
     __tablename__ = "wb_orders"
 
-    srid: Mapped[str] = mapped_column(primary_key=True)
+    srid: Mapped[str] = mapped_column(String(255), primary_key=True)
 
     date: Mapped[datetime]
     lastChangeDate: Mapped[datetime]
@@ -35,5 +42,5 @@ class WBOrder(Base):
     isCancel: Mapped[bool]
     cancelDate: Mapped[datetime]
     orderType: Mapped[str] = mapped_column(String(100))
-    sticker: Mapped[str]
+    sticker: Mapped[str] = mapped_column(String(100))
     gNumber: Mapped[str] = mapped_column(String(50))
