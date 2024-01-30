@@ -16,7 +16,7 @@ class WBStock(Base):
 
     __tablename__ = "wb_stocks"
 
-    nmId: Mapped[str] = mapped_column(Integer, primary_key=True)
+    nmId: Mapped[int] = mapped_column(Integer, primary_key=True)
 
     lastChangeDate: Mapped[datetime]
     warehouseName: Mapped[str] = mapped_column(String(50))
