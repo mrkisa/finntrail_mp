@@ -1,11 +1,13 @@
 import setuptools
 
+REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()]
+
 setuptools.setup(
     name="mplace",
-    version="1.2.0",
+    version="1.2.1",
     author="mrkisa",
     description="",
-    install_requires=[],
+    install_requires=REQUIREMENTS,
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3.8",
