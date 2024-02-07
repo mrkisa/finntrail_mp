@@ -3,18 +3,11 @@ from datetime import datetime
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from mplace.models.base import Base
+from mplace.utils import Base
 
 
-class WBOrder(Base):
-    """
-    Заказы
-
-    Платформа: Wildberries
-    Ссылка на документацию апи: https://openapi.wb.ru/statistics/api/ru/#tag/Statistika/paths/~1api~1v1~1supplier~1orders/get
-    """
-
-    __tablename__ = "wb_orders"
+class Order(Base):
+    __tablename__ = 'wb_orders'
 
     srid: Mapped[str] = mapped_column(String(255), primary_key=True)
 

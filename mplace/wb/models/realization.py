@@ -3,18 +3,11 @@ from datetime import datetime
 from sqlalchemy import String, Float, Integer, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 
-from mplace.models.base import Base
+from mplace.utils import Base
 
 
-class WBReportRow(Base):
-    """
-    Отчет о продажах по реализации
-
-    Платформа: Wildberries
-    Ссылка на документацию апи: https://openapi.wb.ru/statistics/api/ru/#tag/Statistika/paths/~1api~1v1~1supplier~1reportDetailByPeriod/get
-    """
-
-    __tablename__ = "wb_realization_report"
+class RealizationRow(Base):
+    __tablename__ = 'wb_realization_report'
 
     rrd_id: Mapped[int] = mapped_column(String(50), primary_key=True)
 

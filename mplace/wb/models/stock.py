@@ -3,18 +3,11 @@ from datetime import datetime
 from sqlalchemy import String, Integer, SmallInteger
 from sqlalchemy.orm import Mapped, mapped_column
 
-from mplace.models.base import Base
+from mplace.utils import Base
 
 
-class WBStock(Base):
-    """
-    Склад
-
-    Платформа: Wildberries
-    Ссылка на документацию апи: https://openapi.wb.ru/statistics/api/ru/#tag/Statistika/paths/~1api~1v1~1supplier~1stocks/get
-    """
-
-    __tablename__ = "wb_stocks"
+class Stock(Base):
+    __tablename__ = 'wb_stocks'
 
     nmId: Mapped[int] = mapped_column(Integer, primary_key=True)
 

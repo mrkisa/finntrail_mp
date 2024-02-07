@@ -3,18 +3,11 @@ import datetime
 from sqlalchemy import Date
 from sqlalchemy.orm import Mapped, mapped_column
 
-from mplace.models.base import Base
+from mplace.utils import Base
 
 
-class WBStatRow(Base):
-    """
-    Статистика КТ
-
-    Платформа: Wildberries
-    Ссылка на документацию апи: https://openapi.wb.ru/analytics/api/ru/#tag/Voronka-prodazh/paths/~1content~1v1~1analytics~1nm-report~1grouped~1history/post
-    """
-
-    __tablename__ = "wb_stats_kt"
+class StatRow(Base):
+    __tablename__ = 'wb_stats_kt'
 
     dt: Mapped[datetime.date] = mapped_column(Date, primary_key=True)
 

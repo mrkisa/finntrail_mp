@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="mplace",
-    version="1.1.0",
+    version="1.2.0",
     author="mrkisa",
     description="",
     install_requires=[],

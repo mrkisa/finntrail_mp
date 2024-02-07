@@ -4,45 +4,38 @@ from typing import List
 from sqlalchemy import String, ForeignKey, Table, Column, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from mplace.models.base import Base
+from mplace.utils import Base
 
 
-class OZONItem(Base):
-    __tablename__ = "ozon_items"
+class Item(Base):
+    __tablename__ = 'ozon_items'
 
     sku: Mapped[str] = mapped_column(String(50), primary_key=True)
     name: Mapped[str] = mapped_column(String(200))
 
 
 transactions_items = Table(
-    "ozon_transaction_items",
+    'ozon_transaction_items',
     Base.metadata,
-    Column("transaction_id", ForeignKey("ozon_transactions.operation_id")),
-    Column("item_id", ForeignKey("ozon_items.sku")),
+    Column('transaction_id', ForeignKey('ozon_transactions.operation_id')),
+    Column('item_id', ForeignKey('ozon_items.sku')),
 )
 
 
-class OZONService(Base):
-    __tablename__ = "ozon_transaction_services"
+class Service(Base):
+    __tablename__ = 'ozon_transaction_services'
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
 
     transaction_id: Mapped[str] = mapped_column(ForeignKey('ozon_transactions.operation_id'))
-    transaction: Mapped['OZONTransaction'] = relationship(back_populates='services')
+    transaction: Mapped['Transaction'] = relationship(back_populates='services')
 
     name: Mapped[str] = mapped_column(String(200))
     price: Mapped[float]
 
 
-class OZONTransaction(Base):
-    """
-    Список транзакций
-
-    Платформа: Ozon
-    Ссылка на документацию апи: https://docs.ozon.ru/api/seller/#operation/FinanceAPI_FinanceTransactionListV3
-    """
-
-    __tablename__ = "ozon_transactions"
+class Transaction(Base):
+    __tablename__ = 'ozon_transactions'
 
     operation_id: Mapped[str] = mapped_column(String(50), primary_key=True)
 
@@ -61,5 +54,5 @@ class OZONTransaction(Base):
     posting_number: Mapped[str] = mapped_column(String(50), nullable=True)
     posting_warehouse_id: Mapped[str] = mapped_column(String(50))
 
-    items: Mapped[List[OZONItem]] = relationship(secondary=transactions_items)
-    services: Mapped[List[OZONService]] = relationship()
+    items: Mapped[List[Item]] = relationship(secondary=transactions_items)
+    services: Mapped[List[Service]] = relationship()
