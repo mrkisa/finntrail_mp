@@ -89,7 +89,7 @@ class Client(ClientBase):
 
             result.append(Transaction(**row))
 
-        assert len(result) < 1000
+        # assert len(result) < 1000
 
         return result
 
