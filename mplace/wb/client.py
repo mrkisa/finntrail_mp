@@ -101,24 +101,33 @@ class Client(ClientBase):
             'lastChangeDate': datetime.strptime(row['lastChangeDate'], '%Y-%m-%dT%H:%M:%S'),
         }) for row in data]
 
-    def get_realization_report(self, date_from: datetime, date_to: datetime) -> [RealizationRow]:
+    def get_realization_report(self, date_from: datetime, date_to: datetime, limit=100000, rrdid=None) -> [
+        RealizationRow]:
         """
         Отчет о продажах по реализации
 
         Документация: https://openapi.wb.ru/statistics/api/ru/#tag/Statistika/paths/~1api~1v1~1supplier~1reportDetailByPeriod/get
 
-        :param date_from: Начальная дата отчета.
+        :param date_from: Начальная дата отчета
         :param date_to: Конечная дата отчета
+        :param limit: Максимальное количество строк отчета, возвращаемых методом. Не может быть более 100000
+        :param rrdid: Уникальный идентификатор строки отчета. Необходим для получения отчета частями
 
         :return: Список объектов RealizationRow
         """
 
+        params = {
+            'dateFrom': date_from.strftime('%Y-%m-%dT%H:%M:%S'),
+            'dateTo': date_to.strftime('%Y-%m-%dT%H:%M:%S'),
+            'limit': limit
+        }
+
+        if rrdid is not None:
+            params['rrdid'] = rrdid
+
         data = self._get(
             'https://statistics-api.wildberries.ru/api/v1/supplier/reportDetailByPeriod',
-            params={
-                'dateFrom': date_from.strftime('%Y-%m-%dT%H:%M:%S'),
-                'dateTo': date_to.strftime('%Y-%m-%dT%H:%M:%S')
-            }
+            params=params
         )
 
         def _str_to_dt(value: Optional[str]) -> Optional[datetime]:
@@ -140,8 +149,6 @@ class Client(ClientBase):
             'rrd_id': str(row['rrd_id']),
             'shk_id': str(row['shk_id'])
         }) for row in data]
-
-        assert len(result) <= 10000
 
         return result
 

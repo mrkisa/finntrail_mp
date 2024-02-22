@@ -89,8 +89,6 @@ class Client(ClientBase):
 
             result.append(Transaction(**row))
 
-        # assert len(result) < 1000
-
         return result
 
     def get_realization_report(self, report_date: str) -> [Realization]:
