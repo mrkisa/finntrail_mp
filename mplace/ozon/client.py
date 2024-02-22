@@ -152,7 +152,8 @@ class Client(ClientBase):
             json={
                 'filter': {
                     'processed_at_from': processed_at_from.strftime('%Y-%m-%dT%H:%M:%S.000Z'),
-                    'processed_at_to': processed_at_to.strftime('%Y-%m-%dT%H:%M:%S.000Z'),
+                    'processed_at_to': processed_at_to.strftime(
+                        '%Y-%m-%dT%H:%M:%S.000Z') if processed_at_to is not None else None,
                     'delivery_schema': [
                         delivery_schema
                     ]
