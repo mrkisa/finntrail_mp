@@ -4,7 +4,7 @@ REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()]
 
 setuptools.setup(
     name="mplace",
-    version="1.3.3",
+    version="1.3.4",
     author="mrkisa",
     description="",
     install_requires=REQUIREMENTS,
