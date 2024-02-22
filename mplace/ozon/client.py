@@ -147,17 +147,18 @@ class Client(ClientBase):
         """
         assert delivery_schema.lower() in ('fbo', 'fbs')
 
+        filters = {
+            'processed_at_from': processed_at_from.strftime('%Y-%m-%dT%H:%M:%S.000Z'),
+            'delivery_schema': [delivery_schema]
+        }
+
+        if processed_at_to is not None:
+            filters['processed_at_to'] = processed_at_to.strftime('%Y-%m-%dT%H:%M:%S.000Z')
+
         data = self._post(
             'https://api-seller.ozon.ru/v1/report/postings/create',
             json={
-                'filter': {
-                    'processed_at_from': processed_at_from.strftime('%Y-%m-%dT%H:%M:%S.000Z'),
-                    'processed_at_to': processed_at_to.strftime(
-                        '%Y-%m-%dT%H:%M:%S.000Z') if processed_at_to is not None else None,
-                    'delivery_schema': [
-                        delivery_schema
-                    ]
-                }
+                'filter': filters
             }
         )
 
