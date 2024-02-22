@@ -22,7 +22,7 @@ def sync(processed_at_from, delivery_schema, data_dir, client, session, processe
             posting_number=row[1],
             delivery_schema=delivery_schema,
             in_process_at=datetime.datetime.strptime(row[2], '%Y-%m-%d %H:%M:%S'),
-            shipment_date=datetime.datetime.strptime(row[3], '%Y-%m-%d %H:%M:%S'),
+            shipment_date=datetime.datetime.strptime(row[3], '%Y-%m-%d %H:%M:%S') if row[3] else None,
             status=row[4],
             delivery_date=datetime.datetime.strptime(row[5], '%Y-%m-%d %H:%M:%S') if row[5] else None,
             posting_sum=float(row[6]),

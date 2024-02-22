@@ -13,7 +13,7 @@ class Posting(Base):
     posting_number: Mapped[str] = mapped_column(String(20), primary_key=True)  # Номер отправления
     delivery_schema: Mapped[str] = mapped_column(String(3))  # Схема работы — FBO или FBS
     in_process_at: Mapped[datetime]  # Принят в обработку
-    shipment_date: Mapped[datetime]  # Дата отгрузки
+    shipment_date: Mapped[datetime] = mapped_column(DateTime, nullable=True, default=None)  # Дата отгрузки
     status: Mapped[str] = mapped_column(String(20))  # Статус
     delivery_date: Mapped[datetime] = mapped_column(DateTime, nullable=True, default=None)  # Дата доставки
     posting_sum: Mapped[float]  # Сумма отправления
