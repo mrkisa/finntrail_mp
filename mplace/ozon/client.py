@@ -36,6 +36,8 @@ class Client(ClientBase):
         """
         Список транзакций
 
+        Документация: https://docs.ozon.ru/api/seller/#operation/FinanceAPI_FinanceTransactionListV3
+
         :param date_from: Начало периода
         :param date_to: Конец периода
         :param page: Номер страницы, возвращаемой в запросе
@@ -87,11 +89,15 @@ class Client(ClientBase):
 
             result.append(Transaction(**row))
 
+        assert len(result) < 1000
+
         return result
 
     def get_realization_report(self, report_date: str) -> [Realization]:
         """
         Отчёт о реализации товаров
+
+        Документация: https://docs.ozon.ru/api/seller/#operation/FinanceAPI_GetRealizationReport
 
         :param report_date: Отчётный период в формате YYYY-MM
         :return: Список объектов Realization
@@ -114,6 +120,8 @@ class Client(ClientBase):
         """
         Отчёт об остатках на FBS-складе
 
+        Документация: https://docs.ozon.ru/api/seller/#operation/ReportAPI_CreateStockByWarehouseReport
+
         :param warehouse_id: Идентификаторы складов
         :return: Уникальный идентификатор отчёта
         """
@@ -126,11 +134,14 @@ class Client(ClientBase):
 
         return data['result']['code']
 
-    def create_postings_report(self, processed_at_from, delivery_schema) -> str:
+    def create_postings_report(self, processed_at_from, delivery_schema, processed_at_to=None) -> str:
         """
         Отчёт об отправлениях
 
+        Документация: https://docs.ozon.ru/api/seller/#operation/ReportAPI_CreateCompanyPostingsReport
+
         :param processed_at_from: Время, когда заказ попал в обработку
+        :param processed_at_to: Время, когда заказ попал в обработку
         :param delivery_schema: Схема работы — FBO или FBS
         :return: Уникальный идентификатор отчёта
         """
@@ -141,6 +152,7 @@ class Client(ClientBase):
             json={
                 'filter': {
                     'processed_at_from': processed_at_from.strftime('%Y-%m-%dT%H:%M:%S.000Z'),
+                    'processed_at_to': processed_at_to.strftime('%Y-%m-%dT%H:%M:%S.000Z'),
                     'delivery_schema': [
                         delivery_schema
                     ]
