@@ -1,4 +1,5 @@
 import os
+from urllib import parse
 
 import requests
 
@@ -11,7 +12,7 @@ def download_report(url, out_dir):
     :param out_dir: Путь к папке, в которую будет скачан отчет
     :return: Путь к файлу с отчетом
     """
-    report_file_name = url.split('/')[-1]
+    report_file_name = parse.urlparse(url).path.split('/')[-1]
     report_file = os.path.join(out_dir, report_file_name)
 
     r = requests.get(url)
