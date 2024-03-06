@@ -8,6 +8,18 @@ from mplace.utils import ClientBase
 from .models import Order, Sale, RealizationRow, StatRow, Stock
 
 
+class ClientError(Exception):
+    pass
+
+
+class NoData(ClientError):
+    pass
+
+
+class ToManyRequests(ClientError):
+    pass
+
+
 class Client(ClientBase):
     client_secret: str
 
@@ -17,8 +29,12 @@ class Client(ClientBase):
 
     def _check_errors(self, resp: Response):
         data = resp.json()
+
+        if data is None:
+            raise NoData('Response data is None')
+
         if 'code' in data and data['code'] == 429:
-            raise Exception('Too many requests')
+            raise ToManyRequests('Too many requests')
 
     def _auth(self, req: Request) -> Request:
         req.headers = {
