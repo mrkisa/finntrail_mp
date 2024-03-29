@@ -89,11 +89,15 @@ class Client(ClientBase):
             }
         )
 
-        return [Sale(**{
-            **row,
-            'date': datetime.strptime(row['date'], '%Y-%m-%dT%H:%M:%S'),
-            'lastChangeDate': datetime.strptime(row['lastChangeDate'], '%Y-%m-%dT%H:%M:%S'),
-        }) for row in data]
+        def make_sales_data(row: dict):
+            del row['paymentSaleAmount']
+            return {
+                **row,
+                'date': datetime.strptime(row['date'], '%Y-%m-%dT%H:%M:%S'),
+                'lastChangeDate': datetime.strptime(row['lastChangeDate'], '%Y-%m-%dT%H:%M:%S'),
+            }
+
+        return [Sale(**make_sales_data(row)) for row in data]
 
     def get_stocks(self, date_from: datetime) -> [Stock]:
         """
