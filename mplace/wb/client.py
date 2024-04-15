@@ -1,3 +1,4 @@
+import json
 from datetime import datetime, date
 from typing import Optional
 
@@ -191,7 +192,7 @@ class Client(ClientBase):
         """
 
         data = self._post(
-            'https://suppliers-api.wildberries.ru/content/v1/analytics/nm-report/grouped/history',
+            'https://seller-analytics-api.wildberries.ru/api/v2/nm-report/grouped/history',
             json={
                 'period': {
                     'begin': date_from.strftime('%Y-%m-%d'),
