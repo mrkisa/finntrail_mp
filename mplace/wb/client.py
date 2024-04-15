@@ -146,7 +146,7 @@ class Client(ClientBase):
             params['rrdid'] = rrdid
 
         data = self._get(
-            'https://statistics-api.wildberries.ru/api/v1/supplier/reportDetailByPeriod',
+            'https://statistics-api.wildberries.ru/api/v5/supplier/reportDetailByPeriod',
             params=params
         )
 
@@ -156,19 +156,26 @@ class Client(ClientBase):
                 '%Y-%m-%dT%H:%M:%S'
             ) if value is not None else None
 
-        result = [RealizationRow(**{
-            **row,
-            'date_from': _str_to_dt(row['date_from']),
-            'date_to': _str_to_dt(row['date_to']),
-            'create_dt': _str_to_dt(row['create_dt']),
-            'order_dt': _str_to_dt(row['order_dt']),
-            'sale_dt': _str_to_dt(row['sale_dt']),
-            'rr_dt': _str_to_dt(row['rr_dt']),
+        result = []
+        for row in data:
+            del row['storage_fee']
+            del row['deduction']
+            del row['acceptance']
+            del row['report_type']
 
-            'rid': str(row['rid']),
-            'rrd_id': str(row['rrd_id']),
-            'shk_id': str(row['shk_id'])
-        }) for row in data]
+            result.append(RealizationRow(**{
+                **row,
+                'date_from': _str_to_dt(row['date_from'] + 'T00:00:00'),
+                'date_to': _str_to_dt(row['date_to'] + 'T23:59:59'),
+                'create_dt': _str_to_dt(row['create_dt'] + 'T00:00:00'),
+                'order_dt': _str_to_dt(row['order_dt']),
+                'sale_dt': _str_to_dt(row['sale_dt']),
+                'rr_dt': _str_to_dt(row['rr_dt'] + 'T00:00:00'),
+
+                'rid': str(row['rid']),
+                'rrd_id': str(row['rrd_id']),
+                'shk_id': str(row['shk_id'])
+            }))
 
         return result
 
