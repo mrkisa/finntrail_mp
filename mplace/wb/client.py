@@ -163,6 +163,7 @@ class Client(ClientBase):
             del row['deduction']
             del row['acceptance']
             del row['report_type']
+            del row['acquiring_percent']
 
             result.append(RealizationRow(**{
                 **row,
