@@ -11,7 +11,7 @@ def sync(warehouses_ids, data_dir, client: Client, session: Session):
     report_file = download_report(report_url, data_dir)
 
     for row in read_excel(report_file, sheet_index=0):
-        warehouse_id, warehouse_name, sku, name, available, reserved = row
+        warehouse_id, warehouse_name, sku, name, available, reserved, *_ = row
 
         stock = Stock(
             sku=sku,
