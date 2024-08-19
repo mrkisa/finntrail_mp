@@ -164,6 +164,9 @@ class Client(ClientBase):
             del row['acceptance']
             del row['report_type']
             del row['acquiring_percent']
+            del row['dlv_prc']
+            del row['fix_tariff_date_from']
+            del row['fix_tariff_date_to']
 
             result.append(RealizationRow(**{
                 **row,
